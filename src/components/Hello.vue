@@ -374,12 +374,30 @@ export default {
           "total": 100, //记录总数
           "totalPage": 30  //总页数
         }
-      }
+      },
+      page:''
       // 
     }
   },
   computed:{
 
+  },
+  created(){
+     /*this.$http.get().then(response => {
+        console.log(response)
+      }, response => {
+        alert('失败')
+      });*/
+  },
+  methods:{
+    page(){
+      alert('下一页')
+      /*this.$http.get().then(response => {
+        console.log(response)
+      }, response => {
+        alert('失败')
+      });*/
+    }
   },
   filters:{
     level(val){
