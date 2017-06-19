@@ -7,8 +7,8 @@ import VueResource from 'vue-resource'
 
 Vue.use(VueResource)
 
-Vue.config.productionTip = false
-
+Vue.config.productionTip = false;
+Vue.http.headers.common['Content-Type'] = 'application/json';
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

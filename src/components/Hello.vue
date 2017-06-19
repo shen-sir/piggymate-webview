@@ -1,9 +1,9 @@
 <template>
   <div class="hello">
-    <div v-for="item in list.list" class="contain">
+    <div v-for="item in list" class="contain">
       <div class="info">
         <div class="headimg">
-          <img :src="item.imposterAvatar">
+          <img :src="item.userAvatar">
         </div>
         <div class="text">
           <p class="top">
@@ -16,7 +16,12 @@
         </div>
       </div>
       <div class="state">
-        <p><span class="left">共计：{{item.totalPrice}}元</span><span :class="item.status | classs(item.rateFlag)" class="right">{{item.status==23?(item.rateFlag==0?'去评价':'已完成'):item.status | stateText}}</span></p>
+        <p>
+          <span class="left">共计：{{item.totalPrice}}元</span>
+          <span @click="link(item.status==23,item.rateFlag==0)" :class="item.status | classs(item.rateFlag)" class="right">
+            {{item.status==23?(item.rateFlag==0?'去评价':'已完成'):item.status | stateText}}
+          </span>
+        </p>
       </div>
     </div>
   </div>
@@ -28,354 +33,11 @@ export default {
   data () {
     return {
       // 
-      list:{
-        "list": [{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },
-        {
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        },{
-          "id": 1, //订单编号
-          "imposterUid": 2, //代练UID,
-          "imposterName": "带你超神带你飞",  //代练昵称
-          "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-          "uid": 1, //当前用户ID
-          "roomId": 10000, //房间号
-          "userName": "小白玩家",  //当前用户昵称
-          "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "platform": "android", //设备平台， ios or android or both
-          "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-          "server": "qq", //服务器， qq or wechat
-          "platform": "android", //设备平台，android or ios
-          "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-          "productId": 1,     //对应的商品ID
-          "productName": "王者荣耀代练",     //商品名称
-          "productUnit": "局",     //商品单位
-          "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-          "amount": 10,    //购买数量
-          "parPrice": 10.0,  //单价
-          "totalPrice": 100.0, //总价
-          "status": 20,  //订单状态, 0 - 待支付，10 - 支付中， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-          "statusMsg": "已取消", //状态更新信息
-          "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-          "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-          "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-        }],
-        "pagination": {  //分页信息
-          "page": 1,  //当前页数
-          "total": 100, //记录总数
-          "totalPage": 30  //总页数
-        }
-      },
-      page:''
+      list:[] ,
+      page:1,
+      isget:true,//是否请求
+      noend:true,//是否最后一页
+      userid:''
       // 
     }
   },
@@ -383,20 +45,47 @@ export default {
 
   },
   created(){
-     /*this.$http.get().then(response => {
-        console.log(response)
-      }, response => {
-        alert('失败')
-      });*/
+      // this.userid = window.getinfo();
+      console.log(this.getlist)
+      this.getlist()
+      var that = this;
+      window.onscroll=function(){
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        // console.log(document.body.scrollHeight-scrollTop-window.innerHeight)
+        let scrtop = document.body.scrollHeight-scrollTop-window.innerHeight;
+        if(scrtop<40){
+          that.page++
+          that.getlist();
+        }
+      }
   },
   methods:{
-    page(){
-      alert('下一页')
-      /*this.$http.get().then(response => {
-        console.log(response)
-      }, response => {
-        alert('失败')
-      });*/
+    getlist(){
+      // alert('下一页')
+      var that = this;
+      if(this.isget&&this.noend){
+        this.isget = false;
+        this.$http.get('/wzry/users/2/orders?page='+this.page).then(response => {
+          that.isget = true;
+          console.log(response)
+          response.body.wzryImposterOrders.length==0?that.noend=false:that.noend=true;
+          for(let i=0;i<response.body.wzryImposterOrders.length;i++){
+            that.list.push(response.body.wzryImposterOrders[i])
+          }
+        }, response => {
+          alert('失败')
+        });
+      }else{
+        return
+      }
+      
+    },
+    link(v1,v2){
+      if(v1&&v2){
+        this.$router.push({ name: 'Evaluation', params: { userId: this.userid }})
+      }else{
+        return
+      }
     }
   },
   filters:{
