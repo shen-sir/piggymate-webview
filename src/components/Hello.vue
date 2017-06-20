@@ -65,7 +65,7 @@ export default {
       var that = this;
       if(this.isget&&this.noend){
         this.isget = false;
-        this.$http.get('/wzry/users/2/orders?page='+this.page).then(response => {
+        this.$http.get('/wzry/users/10002/orders?page='+this.page).then(response => {
           that.isget = true;
           console.log(response)
           response.body.wzryImposterOrders.length==0?that.noend=false:that.noend=true;

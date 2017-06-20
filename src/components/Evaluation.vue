@@ -2,34 +2,39 @@
   <div class="contain">
     <div class="top">
       <p>订单详情</p>
-      <span class="one">安卓端</span>
-      <span class="two">安卓端</span>
-      <span class="three">安卓端</span>
-      <span class="four">安卓端</span>
+      <span class="one">{{this.info.order.platform}}</span>
+      <span class="two">{{this.info.order.level | state}}</span>
+      <span class="three">{{this.info.order.server}}</span>
+      <span class="four">{{this.info.order.gameMode | mode}}</span>
     </div>
     <div class="user">
       <div class="head">
-        <img src="../assets/h.jpg" >
+        <img :src="info.order.imposterAvatar" >
       </div>
-      <span class="name">我是小和蔼123123123</span>
+      <span class="name">{{this.info.order.imposterName}}</span>
       <span class="icon"></span>
-      <span class="num">4.6分</span>
-      <span class="Order">236单</span>
+      <span class="num">{{this.info.score}}分</span>
+      <span class="Order">{{this.info.total}}单</span>
     </div>
-    <div class="stars">
+    <div  @click="toggle" class="stars">
       <span class="h1">评分</span>
-      <span class="star"></span> 
-      <span class="star"></span> 
-      <span class="star"></span> 
-      <span class="star"></span> 
-      <span class="star"></span>
+      <span :class="{active:startoggle.one}" class="star"></span> 
+      <span :class="{active:startoggle.two}" class="star"></span> 
+      <span :class="{active:startoggle.three}" class="star"></span> 
+      <span :class="{active:startoggle.four}" class="star"></span> 
+      <span :class="{active:startoggle.five}" class="star"></span>
     </div>
-    <textarea name="" id="" cols="42" rows="10" placeholder="服务如何啊？是大腿吗？开黑过程爽不爽！快快写下评价让大家参考哦~"></textarea>
+    <textarea name="" id="" cols="42" rows="10" v-model="message" placeholder="服务如何啊？是大腿吗？开黑过程爽不爽！快快写下评价让大家参考哦~"></textarea>
     <div class="quick">
       <p>快速评价</p>
-      <span>水平太差太差</span><span class="cnt">水平太差太差</span><span>水平太差太差</span><span>水平太差太差</span><span class="cnt">水平太差太差</span><span>水平太差太差</span>
+      <span @click="quick.one = !quick.one" :class="{active:quick.one}">水平太差太差</span><!-- 
+       --><span @click="quick.two = !quick.two" :class="{active:quick.two}" style="margin: 0 .16rem 0 .16rem;">水平太差太差</span><!-- 
+       --><span @click="quick.three = !quick.three" :class="{active:quick.three}">水平太差太差</span><!-- 
+       --><span @click="quick.four = !quick.four" :class="{active:quick.four}">水平太差太差</span><!-- 
+       --><span @click="quick.five = !quick.five" :class="{active:quick.five}" style="margin: 0 .16rem 0 .16rem;">水平太差太差</span><!-- 
+       --><span @click="quick.six = !quick.six" :class="{active:quick.six}">水平太差太差</span>
     </div>
-    <div class="btn">
+    <div @click="sub" class="btn">
       提交
     </div>
   </div>
@@ -41,7 +46,23 @@ export default {
   data () {
     return {
       // 
-      
+      info:null,
+      message:'',
+      startoggle:{
+        one:false,
+        two:false,
+        three:false,
+        four:false,
+        five:false,
+      },
+      quick:{
+        one:true,
+        two:false,
+        three:false,
+        four:false,
+        five:false,
+        six:false
+      }
       // 
     }
   },
@@ -49,24 +70,134 @@ export default {
 
   },
   created(){
-     /*this.$http.get().then(response => {
+    var that = this;
+     this.$http.get('/wzry/users/10002').then(response => {
         console.log(response)
+        that.info = {
+          "order": {  //当前未完成订单,一个用户同一时间最多一个未完成订单
+            "id": 1, //订单编号
+            "imposterUid": 2, //代练UID,
+            "imposterName": "带你超神带你飞",  //代练昵称
+            "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
+            "uid": 1, //当前用户ID
+            "userName": "小白玩家",  //当前用户昵称
+            "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
+            "roomId": 10000, //房间号
+            "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
+            "server": "qq", //服务器， qq or wechat
+            "platform": "android", //设备平台，android or ios
+            "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
+            "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
+            "productId": 1,     //对应的商品ID
+            "productName": "王者荣耀代练",     //商品名称
+            "productUnit": "局",     //商品单位
+            "amount": 10,    //购买数量
+            "parPrice": 10.0,  //单价
+            "totalPrice": 100.0, //总价
+            "status": 0,  //订单状态, 0 - 待支付，10 - 支付中，11 - 支付失败， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
+            "statusMsg": "已取消", //状态更新信息
+            "createdAt": "2017-06-12 12:00:00",  //订单创建时间
+            "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
+            "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
+          },
+          "uid": 1000,    //用户UID
+          "userName" : "小白", //用户昵称
+          "avartar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
+          "total": 100,  //总订单数
+          "score": 4.5  //当前评分
+        }
       }, response => {
         alert('失败')
-      });*/
+      });
   },
   methods:{
-    page(){
-      alert('下一页')
-      /*this.$http.get().then(response => {
+    toggle(e){
+      for (var obi in this.startoggle) {
+           this.startoggle[obi] = false
+      }
+      // console.log(e)
+      let current = e.target;
+      let currentparent = current.parentElement;
+      if(current.classList[0]!='star') return
+      for(let i=0;i<currentparent.children.length;i++){
+        if(currentparent.children[i].classList[0] == "star"){
+          // this.startoggle[i-1] = true;  
+          switch(i){
+            case 1:
+            this.startoggle.one = true;
+            break;
+            case 2:
+            this.startoggle.two = true;
+            break;
+            case 3:
+            this.startoggle.three = true;
+            break;
+            case 4:
+            this.startoggle.four = true;
+            break;
+            case 5:
+            this.startoggle.five = true;
+            break;
+          }
+          // console.log(currentparent.children[i])
+          if(current == currentparent.children[i]){
+            // this.startoggle[i-1] = true;
+            break;
+          }
+
+        }
+
+      }
+      
+    },
+    sub(){
+      alert(1)
+      this.$http.post('/users/users/10002/orders/'+this.info.order.id+'/rate',{"rate": 4.5,"tagId": 1,"content":'qwqwq'}).then(response => {
         console.log(response)
       }, response => {
         alert('失败')
-      });*/
+      });
     }
   },
   filters:{
-    
+    state(val){
+      switch(val){
+        case 0:
+        return '青铜'
+        break;
+        case 1:
+        return '白银'
+        break;
+        case 2:
+        return '黄金'
+        break;
+        case 3:
+        return '铂金'
+        break;
+        case 4:
+        return '钻石'
+        break;
+        case 5:
+        return '王者'
+        break;
+        case 6:
+        return '荣耀王者'
+        break;
+      }
+    },
+    mode(val){
+      switch(val){
+        case 'pair':
+        return '匹配'
+        break
+        case 'rank':
+        return '排位'
+        break
+        case 'others':
+        return '其他'
+        break
+      }
+    }
   }
 }
 </script>
@@ -186,6 +317,9 @@ export default {
       background-position:center;
       background-size:contain;
     }
+    .active{
+      background-image: url(../assets/pingjia-daxingxing@2x.png);
+    }
   }
   textarea{
     height: 1.5rem;
@@ -212,8 +346,9 @@ export default {
       color: #666666;
       margin-bottom: .15rem;
     }
-    .cnt{
-      margin: 0 .16rem 0 .16rem;
+    .active{
+      background-color: #ffaa00;
+      color: white;
     }
   }
   .btn{

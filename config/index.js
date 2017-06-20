@@ -31,6 +31,10 @@ module.exports = {
         '/wzry': {
             target: 'http://test.api.xiugr.com:11010',
             changeOrigin: true
+        },
+        '/users': {
+            target: 'http://test.api.xiugr.com:11010',
+            changeOrigin: true
         }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
