@@ -33,7 +33,7 @@ module.exports = {
             changeOrigin: true
         },
         '/users': {
-            target: 'http://test.api.xiugr.com:11010',
+            target: 'http://test.api.xiugr.com:11000',
             changeOrigin: true
         }
     },

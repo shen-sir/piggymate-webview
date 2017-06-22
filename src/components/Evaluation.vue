@@ -24,15 +24,15 @@
       <span :class="{active:startoggle.four}" class="star"></span> 
       <span :class="{active:startoggle.five}" class="star"></span>
     </div>
-    <textarea name="" id="" cols="42" rows="10" v-model="message" placeholder="服务如何啊？是大腿吗？开黑过程爽不爽！快快写下评价让大家参考哦~"></textarea>
+    <textarea name="" id="" cols="42" rows="10" v-model="ajaxmsg.content" placeholder="服务如何啊？是大腿吗？开黑过程爽不爽！快快写下评价让大家参考哦~"></textarea>
     <div class="quick">
       <p>快速评价</p>
-      <span @click="quick.one = !quick.one" :class="{active:quick.one}">水平太差太差</span><!-- 
-       --><span @click="quick.two = !quick.two" :class="{active:quick.two}" style="margin: 0 .16rem 0 .16rem;">水平太差太差</span><!-- 
-       --><span @click="quick.three = !quick.three" :class="{active:quick.three}">水平太差太差</span><!-- 
-       --><span @click="quick.four = !quick.four" :class="{active:quick.four}">水平太差太差</span><!-- 
-       --><span @click="quick.five = !quick.five" :class="{active:quick.five}" style="margin: 0 .16rem 0 .16rem;">水平太差太差</span><!-- 
-       --><span @click="quick.six = !quick.six" :class="{active:quick.six}">水平太差太差</span>
+      <span @click="quick.one = !quick.one" :class="{active:quick.one}">6的飞起</span><!-- 
+       --><span @click="quick.two = !quick.two" :class="{active:quick.two}" style="margin: 0 .16rem 0 .16rem;">团战大杀器</span><!-- 
+       --><span @click="quick.three = !quick.three" :class="{active:quick.three}">不愧是大神</span><!-- 
+       --><span @click="quick.four = !quick.four" :class="{active:quick.four}">王者号买来的</span><!-- 
+       --><span @click="quick.five = !quick.five" :class="{active:quick.five}" style="margin: 0 .16rem 0 .16rem;">团灭发动机</span><!-- 
+       --><span @click="quick.six = !quick.six" :class="{active:quick.six}">这么水还陪练</span>
     </div>
     <div @click="sub" class="btn">
       提交
@@ -47,7 +47,6 @@ export default {
     return {
       // 
       info:null,
-      message:'',
       startoggle:{
         one:false,
         two:false,
@@ -62,6 +61,11 @@ export default {
         four:false,
         five:false,
         six:false
+      },
+      ajaxmsg:{
+        rate:'',
+        tagIds:[],
+        content:''
       }
       // 
     }
@@ -69,43 +73,14 @@ export default {
   computed:{
 
   },
+  watch:{
+    
+  },
   created(){
     var that = this;
      this.$http.get('/wzry/users/10002').then(response => {
         console.log(response)
-        that.info = {
-          "order": {  //当前未完成订单,一个用户同一时间最多一个未完成订单
-            "id": 1, //订单编号
-            "imposterUid": 2, //代练UID,
-            "imposterName": "带你超神带你飞",  //代练昵称
-            "imposterAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //代练头像地址
-            "uid": 1, //当前用户ID
-            "userName": "小白玩家",  //当前用户昵称
-            "userAvatar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-            "roomId": 10000, //房间号
-            "level": 0, //适用玩家段位： 0:青铜，1:白银，2:黄金，3:铂金，4:钻石，5:王者，6:荣耀王者
-            "server": "qq", //服务器， qq or wechat
-            "platform": "android", //设备平台，android or ios
-            "gameMode": "pair",   //游戏模式， pair:匹配， rank:排位, others: 其他
-            "rateFlag": 1, //评论标识， 0 - 未评论， 1 - 买家已评论， 2 - 卖家已评论， 3 - 已互评
-            "productId": 1,     //对应的商品ID
-            "productName": "王者荣耀代练",     //商品名称
-            "productUnit": "局",     //商品单位
-            "amount": 10,    //购买数量
-            "parPrice": 10.0,  //单价
-            "totalPrice": 100.0, //总价
-            "status": 0,  //订单状态, 0 - 待支付，10 - 支付中，11 - 支付失败， 20 - 派单中,  21 - 订单进行中， 22 - 已取消， 23 - 已完成， 30 - 已退款
-            "statusMsg": "已取消", //状态更新信息
-            "createdAt": "2017-06-12 12:00:00",  //订单创建时间
-            "updatdAt": "2017-06-12 14:00:00",  //订单最后更新时间
-            "completedAt": "2017-06-14 14:00:00",  //订单完成时间，为空或不存在表示未完成
-          },
-          "uid": 1000,    //用户UID
-          "userName" : "小白", //用户昵称
-          "avartar": "http://og06849ak.bkt.clouddn.com/17-05-29_10:16:07575969.jpg", //用户头像地址
-          "total": 100,  //总订单数
-          "score": 4.5  //当前评分
-        }
+        that.info = response.body;
       }, response => {
         alert('失败')
       });
@@ -152,7 +127,21 @@ export default {
     },
     sub(){
       alert(1)
-      this.$http.post('/users/users/10002/orders/'+this.info.order.id+'/rate',{"rate": 4.5,"tagId": 1,"content":'qwqwq'}).then(response => {
+      var _rate = 0;
+      var _quick = Object.values(this.quick);
+      for(var v in this.startoggle){
+        if(this.startoggle[v]){
+          _rate++;
+        }
+      }
+      this.ajaxmsg.rate = _rate;
+      console.log(Object.values(this.quick))
+      for(var i=0;i<_quick.length;i++){
+        if(_quick[i]){
+          this.ajaxmsg.tagIds.push(i)
+        }
+      }
+      this.$http.post('/users/10002/orders/'+this.info.order.id+'/rate',this.ajaxmsg).then(response => {
         console.log(response)
       }, response => {
         alert('失败')
