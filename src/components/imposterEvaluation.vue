@@ -9,9 +9,9 @@
     </div>
     <div class="user">
       <div class="head">
-        <img :src="info.order.imposterAvatar" >
+        <img :src="info.order.userAvatar" >
       </div>
-      <span class="name">{{this.info.order.imposterName}}</span>
+      <span class="name">{{this.info.order.userName}}</span>
       <span class="icon"></span>
       <span class="num">{{this.info.score}}分</span>
       <span class="Order">{{this.info.total}}单</span>
@@ -24,15 +24,15 @@
       <span :class="{active:startoggle.four}" class="star"></span> 
       <span :class="{active:startoggle.five}" class="star"></span>
     </div>
-    <textarea name="" id="" cols="42" rows="10" v-model="ajaxmsg.content" placeholder="服务如何啊？是大腿吗？开黑过程爽不爽！快快写下评价让大家参考哦~"></textarea>
+    <textarea name="" id="" cols="42" rows="10" v-model="ajaxmsg.content" placeholder="写下您对顾客的评价吧～"></textarea>
     <div class="quick">
       <p>快速评价</p>
-      <span @click="quick.one = !quick.one" :class="{active:quick.one}">6的飞起</span><!-- 
-       --><span @click="quick.two = !quick.two" :class="{active:quick.two}" style="margin: 0 .16rem 0 .16rem;">团战大杀器</span><!-- 
-       --><span @click="quick.three = !quick.three" :class="{active:quick.three}">不愧是大神</span><!-- 
-       --><span @click="quick.four = !quick.four" :class="{active:quick.four}">王者号买来的</span><!-- 
-       --><span @click="quick.five = !quick.five" :class="{active:quick.five}" style="margin: 0 .16rem 0 .16rem;">团灭发动机</span><!-- 
-       --><span @click="quick.six = !quick.six" :class="{active:quick.six}">这么水还陪练</span>
+      <span @click="quick.one = !quick.one" :class="{active:quick.one}">妹子</span><!-- 
+       --><span @click="quick.two = !quick.two" :class="{active:quick.two}" style="margin: 0 .16rem 0 .16rem;">猪队友</span><!-- 
+       --><span @click="quick.three = !quick.three" :class="{active:quick.three}">人很nice</span><!-- 
+       --><span @click="quick.four = !quick.four" :class="{active:quick.four}">一点不坑</span><!-- 
+       --><span @click="quick.five = !quick.five" :class="{active:quick.five}" style="margin: 0 .16rem 0 .16rem;">带不动</span><!-- 
+       --><span @click="quick.six = !quick.six" :class="{active:quick.six}">有为青年</span>
     </div>
     <div @click="sub" class="btn">
       提交
@@ -78,7 +78,7 @@ export default {
   },
   created(){
     var that = this;
-     this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/imposters/'+window.getinfo()).then(response => {
+     this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/users/'+window.getinfo()).then(response => {
         console.log(response)
         that.info = response.body;
       }, response => {
@@ -140,7 +140,7 @@ export default {
           this.ajaxmsg.tagIds.push(i)
         }
       }
-      this.$http.post('http://test.api.xiugr.com:11010'+'/users/'+ window.getinfo() +'/orders/'+this.info.order.id+'/rate',this.ajaxmsg).then(response => {
+      this.$http.post('http://test.api.xiugr.com:11010'+'/imposters/'+ window.getinfo() +'/orders/'+this.info.order.id+'/rate',this.ajaxmsg).then(response => {
         console.log(response)
         window.submit();
       }, response => {

@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: 'hello',
+  name: 'imposterHello',
   data () {
     return {
       // 
@@ -65,7 +65,7 @@ export default {
       var that = this;
       if(this.isget&&this.noend){
         this.isget = false;
-        this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/users/'+ window.getinfo() +'/orders?page='+this.page).then(response => {
+        this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/imposters/'+ window.getinfo() +'/orders?page='+this.page).then(response => {
           that.isget = true;
           console.log(response)
           response.body.wzryImposterOrders.length==0?that.noend=false:that.noend=true;
