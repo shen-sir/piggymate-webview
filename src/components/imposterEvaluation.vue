@@ -90,13 +90,11 @@ export default {
       for (var obi in this.startoggle) {
            this.startoggle[obi] = false
       }
-      // console.log(e)
       let current = e.target;
       let currentparent = current.parentElement;
       if(current.classList[0]!='star') return
       for(let i=0;i<currentparent.children.length;i++){
         if(currentparent.children[i].classList[0] == "star"){
-          // this.startoggle[i-1] = true;  
           switch(i){
             case 1:
             this.startoggle.one = true;
@@ -114,9 +112,7 @@ export default {
             this.startoggle.five = true;
             break;
           }
-          // console.log(currentparent.children[i])
           if(current == currentparent.children[i]){
-            // this.startoggle[i-1] = true;
             break;
           }
 

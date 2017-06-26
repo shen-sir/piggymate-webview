@@ -50,7 +50,6 @@ export default {
       var that = this;
       window.onscroll=function(){
         var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        // console.log(document.body.scrollHeight-scrollTop-window.innerHeight)
         let scrtop = document.body.scrollHeight-scrollTop-window.innerHeight;
         if(scrtop<40){
           that.page++
@@ -197,7 +196,6 @@ export default {
       vertical-align: top;
       font-size: .15rem;
       color: #333333;
-      /*border: 1px solid red;*/
       p{
         margin: 0;
       }

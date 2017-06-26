@@ -50,7 +50,6 @@ export default {
       var that = this;
       window.onscroll=function(){
         var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        // console.log(document.body.scrollHeight-scrollTop-window.innerHeight)
         let scrtop = document.body.scrollHeight-scrollTop-window.innerHeight;
         if(scrtop<40){
           that.page++
@@ -60,7 +59,6 @@ export default {
   },
   methods:{
     getlist(){
-      // alert('下一页')
       var that = this;
       if(this.isget&&this.noend){
         this.isget = false;
