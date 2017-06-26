@@ -45,7 +45,6 @@ export default {
 
   },
   created(){
-      // this.userid = window.getinfo();
       console.log(this.getlist)
       this.getlist()
       var that = this;
@@ -65,7 +64,7 @@ export default {
       var that = this;
       if(this.isget&&this.noend){
         this.isget = false;
-        this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/imposters/'+ window.getinfo() +'/orders?page='+this.page).then(response => {
+        this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/imposters/'+ window.webview.getinfo() +'/orders?page='+this.page).then(response => {
           that.isget = true;
           console.log(response)
           response.body.wzryImposterOrders.length==0?that.noend=false:that.noend=true;

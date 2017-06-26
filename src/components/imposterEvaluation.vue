@@ -78,7 +78,7 @@ export default {
   },
   created(){
     var that = this;
-     this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/users/'+window.getinfo()).then(response => {
+     this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/users/'+window.webview.getinfo()).then(response => {
         console.log(response)
         that.info = response.body;
       }, response => {
@@ -140,7 +140,7 @@ export default {
           this.ajaxmsg.tagIds.push(i)
         }
       }
-      this.$http.post('http://test.api.xiugr.com:11010'+'/imposters/'+ window.getinfo() +'/orders/'+this.info.order.id+'/rate',this.ajaxmsg).then(response => {
+      this.$http.post('http://test.api.xiugr.com:11010'+'/imposters/'+ window.webview.getinfo() +'/orders/'+this.info.order.id+'/rate',this.ajaxmsg).then(response => {
         console.log(response)
         window.submit();
       }, response => {

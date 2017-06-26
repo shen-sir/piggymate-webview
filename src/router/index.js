@@ -5,6 +5,8 @@ import Evaluation from '@/components/Evaluation'
 import imposterHello from '@/components/imposterHello'
 import imposterEvaluation from '@/components/imposterEvaluation'
 import statement from '@/components/statement'
+import pricelist from '@/components/pricelist'
+import process from '@/components/process'
 
 Vue.use(Router)
 
@@ -34,6 +36,16 @@ export default new Router({
       path: '/statement',
       name: 'statement',
       component: statement
+    },
+    {
+      path: '/pricelist',
+      name: 'pricelist',
+      component: pricelist
+    },
+    {
+      path: '/process',
+      name: 'process',
+      component: process
     }
   ]
 })
