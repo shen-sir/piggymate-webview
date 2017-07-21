@@ -7,6 +7,7 @@ import imposterEvaluation from '@/components/imposterEvaluation'
 import statement from '@/components/statement'
 import pricelist from '@/components/pricelist'
 import process from '@/components/process'
+import orderDetails from '@/components/orderDetails'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/process',
       name: 'process',
       component: process
+    },
+    {
+      path: '/orderDetails',
+      name: 'orderDetails',
+      component: orderDetails
     }
   ]
 })
