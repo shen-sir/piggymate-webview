@@ -78,7 +78,7 @@ export default {
     
   },
   created(){
-    this.context = ((typeof window.webview)=="undefined" ? this.$route.params.imposterId : JSON.parse(window.webview.getContext()));
+    this.context = ((typeof window.webview)=="undefined" ? this.$route.params.userId : JSON.parse(window.webview.getContext()));
     var that = this;
      this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/users/' + this.context.userId).then(response => {
         console.log(response)
