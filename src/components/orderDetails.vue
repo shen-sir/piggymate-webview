@@ -12,9 +12,9 @@
     </div>
     <div class="info">
       <p>订单详情</p>
-      <span>{{info.order.platform}}端</span><span class="i"></span><!-- 
+      <span>{{info.order.platform | server}}端</span><span class="i"></span><!-- 
        --><span>{{info.level}}</span><span class="i"></span><!-- 
-       --><span>{{info.order.server}}</span><span class="i"></span><!-- 
+       --><span>{{info.order.server | server}}</span><span class="i"></span><!-- 
        --><span>{{info.order.gameMode | mode}}</span>
     </div>
     <div class="price">
@@ -163,6 +163,22 @@ export default {
         return '其他'
         break
       }
+    },
+    server(val){
+      switch(val){
+        case 'wechat':
+        return '微信'
+        break
+        case 'qq':
+        return 'QQ'
+        break
+        case 'ios':
+        return 'IOS'
+        break
+        case 'android':
+        return '安卓'
+        break
+      }
     }
   }
 }
@@ -170,6 +186,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less' scoped>
+* {
+-webkit-touch-callout:none;
+-webkit-user-select:none;
+-khtml-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;
+-webkit-tap-highlight-color: rgba(0,0,0,0);
+-webkit-tap-highlight-color:transparent;
+}
 .contain{
   .user{
     height: .81rem;

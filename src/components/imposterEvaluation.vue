@@ -2,9 +2,9 @@
   <div class="contain">
     <div class="top">
       <p>订单详情</p>
-      <span class="one">{{this.info.order.platform}}</span>
+      <span class="one">{{this.info.order.platform | server}}</span>
       <span class="two">{{this.info.order.level | state}}</span>
-      <span class="three">{{this.info.order.server}}</span>
+      <span class="three">{{this.info.order.server | server}}</span>
       <span class="four">{{this.info.order.gameMode | mode}}</span>
     </div>
     <div class="user">
@@ -42,11 +42,12 @@
 
 <script>
 export default {
-  name: 'Evaluation',
+  name: 'imposterEvaluation',
   data () {
     return {
       // 
       info:null,
+      context:null,
       startoggle:{
         one:false,
         two:false,
@@ -77,8 +78,9 @@ export default {
     
   },
   created(){
+    this.context = ((typeof window.webview)=="undefined" ? this.$route.params.imposterId : JSON.parse(window.webview.getContext()));
     var that = this;
-     this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/users/'+window.webview.getinfo()).then(response => {
+     this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/users/' + this.context.userId).then(response => {
         console.log(response)
         that.info = response.body;
       }, response => {
@@ -87,6 +89,7 @@ export default {
   },
   methods:{
     toggle(e){
+      if(e.target.classList[0] != 'star') return;
       for (var obi in this.startoggle) {
            this.startoggle[obi] = false
       }
@@ -136,7 +139,7 @@ export default {
           this.ajaxmsg.tagIds.push(i)
         }
       }
-      this.$http.post('http://test.api.xiugr.com:11010'+'/imposters/'+ window.webview.getinfo() +'/orders/'+this.info.order.id+'/rate',this.ajaxmsg).then(response => {
+      this.$http.post('http://test.api.xiugr.com:11010'+'/imposters/'+ this.info.order.imposterUid +'/orders/'+this.info.order.id+'/rate',this.ajaxmsg).then(response => {
         console.log(response)
         window.submit();
       }, response => {
@@ -147,27 +150,77 @@ export default {
   filters:{
     state(val){
       switch(val){
-        case 0:
+        case 1:
         return '青铜'
         break;
-        case 1:
+        case 2:
         return '白银'
         break;
-        case 2:
+        case 3:
         return '黄金'
         break;
-        case 3:
+        case 4:
         return '铂金'
         break;
-        case 4:
-        return '钻石'
+        case 50:
+        return '钻石5'
+        break;
+        case 51:
+        return '钻石4'
+        break;
+        case 52:
+        return '钻石3'
+        break;
+        case 53:
+        return '钻石2'
         break;
         case 5:
-        return '王者'
+        return '钻石1'
+        break;
+        case 60:
+        return '星耀5'
+        break;
+        case 61:
+        return '星耀4'
+        break;
+        case 62:
+        return '星耀3'
+        break;
+        case 63:
+        return '星耀2'
         break;
         case 6:
-        return '荣耀王者'
+        return '星耀1'
         break;
+        case 70:
+        return '王者1～10'
+        break;
+        case 71:
+        return '王者11～20'
+        break;
+        case 7:
+        return '王者21+'
+        break;
+      }
+    },
+      server(val){
+        switch(val){
+          case 'wechat':
+          return '微信'
+          break
+          case 'qq':
+          return 'QQ'
+          break
+          case 'all':
+          return 'ALL'
+          break
+          case 'ios':
+          return 'IOS'
+          break
+          case 'android':
+          return '安卓'
+          break
+        }
       }
     },
     mode(val){
@@ -183,12 +236,22 @@ export default {
         break
       }
     }
-  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less' scoped>
+* {
+-webkit-touch-callout:none;
+-webkit-user-select:none;
+-khtml-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;
+-webkit-tap-highlight-color: rgba(0,0,0,0);
+-webkit-tap-highlight-color:transparent;
+}
+
 .contain{
   .top{
     height: .88rem;
