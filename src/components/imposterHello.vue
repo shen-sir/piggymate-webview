@@ -1,25 +1,33 @@
 <template>
-  <div class="hello">
+  <div class="hello" v-if="!list || list.length == 0">
+    <div class="no-record">
+      <div><img src="../assets/no_record.png"></div>
+      <p>一个订单都木有，不能再低调啦</p>
+    </div>
+  </div>
+  <div class="hello" v-else>
     <div v-for="item in list" class="contain">
+      <div class="order-no">订单编号: {{item.id}}</div>
       <div class="info">
         <div class="headimg">
           <img :src="item.userAvatar">
         </div>
         <div class="text">
           <p class="top">
-            <span class="name">{{item.imposterName}}</span><!-- 
+            <span class="name">{{item.userName}}</span><!-- 
              --><span>{{item.createdAt.substr(5, 2)+'月'+ item.createdAt.substr(8, 2) +'日'}}</span><!-- 
              --><span>{{item.createdAt.substr(11, 5)}}</span><!-- 
              --><span>{{item.amount}}局</span>
           </p>
-          <p class="tag"><span>{{item.platform}}端</span><span>{{item.level | level}}</span><span>{{item.server.toUpperCase()}}</span><span>{{item.gameMode | level}}</span></p>
+          <p class="tag"><span>{{item.platform}}端</span><span>{{item.level | level}}</span><span>{{item.server | server}}</span><span>{{item.gameMode | gameMode}}</span></p>
         </div>
       </div>
       <div class="state">
         <p>
           <span class="left">共计：{{item.totalPrice}}元</span>
-          <span @click="link(item.status==23,item.rateFlag==0)" :class="item.status | classs(item.rateFlag)" class="right">
-            {{item.status==23?(item.rateFlag==0?'去评价':'已完成'):item.status | stateText}}
+          <span @click="link(item.status==23,(item.rateFlag & 2) != 2, item.id)" :class="item.status | orderClass((item.rateFlag & 2) != 2)" class="right">
+          <!-- Edited END -->
+            {{item.status==23 ? ((item.rateFlag & 2) != 2 ? '去评价' : '已完成') : item.status | orderStatus}}>
           </span>
         </p>
       </div>
@@ -28,6 +36,7 @@
 </template>
 
 <script>
+import filters from './filters'
 export default {
   name: 'imposterHello',
   data () {
@@ -45,7 +54,6 @@ export default {
 
   },
   created(){
-      console.log(this.getlist)
       this.getlist()
       var that = this;
       window.onscroll=function(){
@@ -60,109 +68,32 @@ export default {
   methods:{
     getlist(){
       var that = this;
-      if(this.isget&&this.noend){
-        this.isget = false;
-        this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/imposters/'+ window.webview.getinfo() +'/orders?page='+this.page).then(response => {
-          that.isget = true;
-          console.log(response)
-          response.body.wzryImposterOrders.length==0?that.noend=false:that.noend=true;
-          for(let i=0;i<response.body.wzryImposterOrders.length;i++){
-            that.list.push(response.body.wzryImposterOrders[i])
-          }
-        }, response => {
-          alert('失败')
-        });
-      }else{
-        return
-      }
-      
+      if(!(this.isget&&this.noend)) return;
+      this.isget = false;
+      this.$http.get('http://test.api.xiugr.com/wzry/imposters/'+ window.webview.getinfo() +'/orders?page='+this.page).then(response => {
+        that.isget = true;
+        console.log(response)
+        response.body.wzryImposterOrders.length==0?that.noend=false:that.noend=true;
+        for(let i=0;i<response.body.wzryImposterOrders.length;i++){
+          that.list.push(response.body.wzryImposterOrders[i])
+        }
+      }, response => {
+        alert('服务器开了个小差')
+      });
     },
-    link(v1,v2){
-      if(v1&&v2){
-        this.$router.push({ name: 'Evaluation', params: { userId: this.userid }})
-      }else{
-        return
+    /** Edited by Justice BEGIN */
+    link(v1,v2,orderId){
+      if(v1&&v2){ 
+        this.$router.push({ 
+          name: 'imposterEvaluation', 
+          params: { userId: this.userid,orderId: orderId, imposterId: order.imposterUid }
+        });
+      } else {
+        return false;
       }
     }
   },
-  filters:{
-    level(val){
-      switch(val){
-        case 0:
-        return '青铜';
-        break;
-        case 1:
-        return '白银';
-        break;
-        case 2:
-        return '黄金';
-        break;
-        case 3:
-        return '铂金';
-        break;
-        case 4:
-        return '钻石';
-        break;
-        case 5:
-        return '王者';
-        break;
-        case 6:
-        return '荣耀王者';
-        break;
-        case 'pair':
-        return '匹配';
-        break;
-        case 'rank':
-        return '排位';
-        break;
-      }
-    },
-    classs(v1,v2,v3){
-      if(v1==23&&v2==0){
-        // 去评价
-        return 'evaluation'
-      }else if(v1==23&&v2!=0){
-        // 已完成
-        return ''
-      }else if(v1 == 0||v1 == 10){
-        // 待付款
-        return 'payment'
-      }else if(v1 == 21||v1 == 20){
-        // 进行中
-        return 'processing'
-      }else if(v1 == 22){
-        // 已取消
-        return ''
-      }else{
-        return ''
-      }
-      
-    },
-    stateText(val){
-      switch(val){
-        case 0:
-        case 10:
-        return '待付款';
-        break;
-        case 20:
-        case 21:
-        return '进行中'
-        break;
-        case 22:
-        return '已取消'
-        break;
-        case 30:
-        return '已退款'
-        break;
-        case '已完成':
-        return '已完成';
-        break;
-        case '去评价':
-        return '去评价'
-        break;
-      }
-    }
-  }
+  filters: filters
 }
 </script>
 
@@ -173,8 +104,8 @@ export default {
     height: .75rem;
     border-bottom: 1px solid #e5e5e5;
     .headimg{
-      height: .51rem;
-      width: .51rem;
+      height: .49rem;
+      width: .49rem;
       border-radius: .05rem;
       overflow: hidden;
       display: inline-block;
@@ -205,7 +136,7 @@ export default {
           margin-left: .2rem;
         }
         .name{
-          margin: 0;
+          margin: -7px;
           overflow:hidden;
           white-space:nowrap;
           display: inline-block;
@@ -272,7 +203,29 @@ export default {
       color: white;
     }
   }
+  .order-no{
+    color: #888;
+    font-size: 0.14rem;
+    margin: 0.06rem;
+  }
 }
 
-
+/*暂无记录*/
+.no-record{
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+  font-size: 0.16rem;
+  color: #666666;
+  &::before{
+    content: '\00a0';
+    display: block;
+    width: 100%;
+    margin-top: 20%;
+  }
+  img{
+    width: 50%;
+    height: 50%;
+  }
+}
 </style>
