@@ -8,6 +8,8 @@ import statement from '@/components/statement'
 import pricelist from '@/components/pricelist'
 import process from '@/components/process'
 import orderDetails from '@/components/orderDetails'
+import userAgreement from '@/components/userAgreement'
+import termsOfPayment from '@/components/termsOfPayment'
 
 Vue.use(Router)
 
@@ -52,6 +54,16 @@ export default new Router({
       path: '/orderDetails',
       name: 'orderDetails',
       component: orderDetails
+    },
+    {
+      path: '/userAgreement',
+      name: 'userAgreement',
+      component: userAgreement
+    },
+    {
+      path: '/termsOfPayment',
+      name: 'termsOfPayment',
+      component: termsOfPayment
     }
   ]
 })
