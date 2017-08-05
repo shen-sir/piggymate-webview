@@ -25,9 +25,9 @@
       <div class="state">
         <p>
           <span class="left">共计：{{item.totalPrice}}元</span>
-          <span @click="link(item.status==23,(item.rateFlag & 2) != 2, item.id)" :class="item.status | orderClass((item.rateFlag & 2) != 2)" class="right">
+          <span @click="link(item.status==23,(item.rateFlag & 2) != 2, item)" :class="item.status | orderClass((item.rateFlag & 2) != 2)" class="right">
           <!-- Edited END -->
-            {{item.status==23 ? ((item.rateFlag & 2) != 2 ? '去评价' : '已完成') : item.status | orderStatus}}>
+            {{item.status==23 ? ((item.rateFlag & 2) != 2 ? '去评价' : '已完成') : item.status | orderStatus}}
           </span>
         </p>
       </div>
@@ -37,6 +37,7 @@
 
 <script>
 import filters from './filters'
+import http from './httprequest'
 export default {
   name: 'imposterHello',
   data () {
@@ -64,13 +65,14 @@ export default {
           that.getlist();
         }
       }
+      alert(http())
   },
   methods:{
     getlist(){
       var that = this;
       if(!(this.isget&&this.noend)) return;
       this.isget = false;
-      this.$http.get('http://test.api.xiugr.com/wzry/imposters/'+ window.webview.getinfo() +'/orders?page='+this.page).then(response => {
+      this.$http.get(http()+'/wzry/imposters/'+ window.webview.getinfo() +'/orders?page='+this.page).then(response => {
         that.isget = true;
         console.log(response)
         response.body.wzryImposterOrders.length==0?that.noend=false:that.noend=true;
@@ -86,7 +88,8 @@ export default {
       if(v1&&v2){ 
         this.$router.push({ 
           name: 'imposterEvaluation', 
-          params: { userId: this.userid,orderId: orderId, imposterId: order.imposterUid }
+          params: { userId: this.userid,orderId: orderId.id, imposterId: orderId.imposterUid },
+          query: { plan: 'private' }
         });
       } else {
         return false;
@@ -102,7 +105,7 @@ export default {
 .contain{
   .info{
     height: .75rem;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 0.01rem solid #e5e5e5;
     .headimg{
       height: .49rem;
       width: .49rem;
@@ -136,7 +139,7 @@ export default {
           margin-left: .2rem;
         }
         .name{
-          margin: -7px;
+          margin: -0.01rem;
           overflow:hidden;
           white-space:nowrap;
           display: inline-block;
@@ -155,7 +158,7 @@ export default {
     }
   }
   .state{
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: .01rem solid #e5e5e5;
     font-size: .14rem;
     height: .5rem;
     p{

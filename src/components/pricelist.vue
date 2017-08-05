@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import http from './httprequest'
 export default {
   name: 'pricelist',
   data () {

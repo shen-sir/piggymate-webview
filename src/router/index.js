@@ -10,6 +10,9 @@ import process from '@/components/process'
 import orderDetails from '@/components/orderDetails'
 import userAgreement from '@/components/userAgreement'
 import termsOfPayment from '@/components/termsOfPayment'
+import invitation from '@/components/invitation'
+import receive from '@/components/receive'
+import AlreadyReceive from '@/components/AlreadyReceive'
 
 Vue.use(Router)
 
@@ -64,6 +67,24 @@ export default new Router({
       path: '/termsOfPayment',
       name: 'termsOfPayment',
       component: termsOfPayment
+    },
+    //app内邀请页面
+    {
+      path: '/invitation',
+      name: 'invitation',
+      component: invitation
+    },
+    //领取优惠券
+    {
+      path: '/receive',
+      name: 'receive',
+      component: receive
+    },
+    //优惠券已放入您的账户中
+    {
+      path: '/AlreadyReceive',
+      name: 'AlreadyReceive',
+      component: AlreadyReceive
     }
   ]
 })

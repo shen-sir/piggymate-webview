@@ -34,10 +34,10 @@
       <img v-if="info.status==23" src="../assets/dingdanxiangqing-wu@2x.png">
       <div v-if="!cancelOrder" class="right">
         <p>订单创建</p>
-        <p>待支付</p>
-        <p>进行中</p>
-        <p>待评价</p>
-        <p>已完成</p>
+        <p class="bott">待支付</p>
+        <p class="bott">进行中</p>
+        <p class="bott">待评价</p>
+        <p class="bott">已完成</p>
       </div>
       <div v-if="cancelOrder" class="right">
         <p>订单创建</p>
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import http from './httprequest'
 export default {
   name: 'orderDetails',
   data () {
@@ -82,7 +83,7 @@ export default {
   },
   created(){
     var that = this;
-     this.$http.get('http://test.api.xiugr.com'+'/wzry/orders/user/'+this.$route.params.orderId).then(response => {
+     this.$http.get(http()+'/wzry/orders/user/'+this.$route.params.orderId).then(response => {
         that.info = response.body;
         console.log(that.info)
         console.log(that.$route.params)
@@ -309,8 +310,8 @@ user-select:none;
       display: inline-block;
       vertical-align: top;
       p{
-        margin-top: .01rem;
-        margin-bottom: .28rem;
+        margin-top: .05rem;
+        margin-bottom: .34rem;
       }
     }
   }

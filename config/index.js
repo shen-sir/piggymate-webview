@@ -7,7 +7,7 @@ module.exports = {
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '../dist/',
+    assetsPublicPath: '/dist/',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
@@ -29,11 +29,19 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/wzry': {
-            target: 'http://test.api.xiugr.com:11010',
+            target: 'http://test.api.xiugr.com',
             changeOrigin: true
         },
         '/users': {
-            target: 'http://test.api.xiugr.com:11000',
+            target: 'http://test.api.xiugr.com',
+            changeOrigin: true
+        },
+        '/acts': {
+            target: 'http://test.api.xiugr.com',
+            changeOrigin: true
+        },
+        '/wechat': {
+            target: 'http://test.api.xiugr.com',
             changeOrigin: true
         }
     },

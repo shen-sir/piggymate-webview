@@ -2,16 +2,16 @@
   <div class="contain">
     <div class="top">
       <p>订单详情</p>
-      <span class="one">{{this.info.order.platform | server}}</span>
-      <span class="two">{{this.info.order.level | state}}</span>
-      <span class="three">{{this.info.order.server | server}}</span>
-      <span class="four">{{this.info.order.gameMode | mode}}</span>
+      <span class="one">{{this.info.platform | server}}</span>
+      <span class="two">{{this.info.level | state}}</span>
+      <span class="three">{{this.info.server | server}}</span>
+      <span class="four">{{this.info.gameMode | mode}}</span>
     </div>
     <div class="user">
       <div class="head">
-        <img :src="info.order.userAvatar" >
+        <img :src="info.userAvatar" >
       </div>
-      <span class="name">{{this.info.order.userName}}</span>
+      <span class="name">{{this.info.userName}}</span>
       <span class="icon"></span>
       <span class="num">{{this.info.score}}分</span>
       <span class="Order">{{this.info.total}}单</span>
@@ -41,12 +41,22 @@
 </template>
 
 <script>
+import http from './httprequest'
 export default {
   name: 'imposterEvaluation',
   data () {
     return {
       // 
-      info:null,
+      info:{
+        platform:'',
+        level:'',
+        server:'',
+        gameMode:'',
+        userAvatar:'',
+        userName:'',
+        score:'',
+        total:''
+      },
       context:null,
       startoggle:{
         one:false,
@@ -78,11 +88,19 @@ export default {
     
   },
   created(){
-    this.context = ((typeof window.webview)=="undefined" ? this.$route.params.userId : JSON.parse(window.webview.getContext()));
+    this.context = (this.$route.query.plan=="private" ? this.$route.params : JSON.parse(window.webview.getContext()));
     var that = this;
-     this.$http.get('http://test.api.xiugr.com:11010'+'/wzry/users/' + this.context.userId).then(response => {
+     this.$http.get(http()+'/wzry/orders/user/' + this.context.orderId).then(response => {
         console.log(response)
-        that.info = response.body;
+        that.respon = response.body;
+        that.info.platform = response.body.order.platform;
+        that.info.level = response.body.order.level;
+        that.info.server = response.body.order.server;
+        that.info.gameMode = response.body.order.gameMode;
+        that.info.userAvatar = response.body.order.userAvatar;
+        that.info.userName = response.body.order.userName;
+        that.info.score = response.body.score;
+        that.info.total = response.body.total;
       }, response => {
         alert('失败')
       });
@@ -139,9 +157,9 @@ export default {
           this.ajaxmsg.tagIds.push(i)
         }
       }
-      this.$http.post('http://test.api.xiugr.com:11010'+'/imposters/'+ this.info.order.imposterUid +'/orders/'+this.info.order.id+'/rate',this.ajaxmsg).then(response => {
+      this.$http.post(http()+'/users/imposters/'+ this.context.imposterId +'/orders/'+this.context.orderId+'/rate',this.ajaxmsg).then(response => {
         console.log(response)
-        window.submit();
+        window.webview.submit();
       }, response => {
         alert(response.body)
       });

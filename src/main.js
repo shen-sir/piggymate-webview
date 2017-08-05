@@ -8,7 +8,13 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
 Vue.config.productionTip = false;
+Vue.config.silent = true
 Vue.http.headers.common['Content-Type'] = 'application/json';
+Vue.http.headers.common['X-Pig-UID'] = '10002';
+if((typeof window.webview)!="undefined" && (typeof window.webview.authkey)!="undefined"){
+	Vue.http.headers.common['Authorization'] = window.webview.authkey();
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

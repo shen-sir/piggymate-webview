@@ -2,16 +2,16 @@
   <div class="contain">
     <div class="top">
       <p>订单详情</p>
-      <span class="one">{{this.info.order.platform | server}}</span>
-      <span class="two">{{this.info.order.level | state}}</span>
-      <span class="three">{{this.info.order.server | server}}</span>
-      <span class="four">{{this.info.order.gameMode | mode}}</span>
+      <span class="one">{{this.info.platform | server}}</span>
+      <span class="two">{{this.info.level | state}}</span>
+      <span class="three">{{this.info.server | server}}</span>
+      <span class="four">{{this.info.gameMode | mode}}</span>
     </div>
     <div class="user">
       <div class="head">
-        <img :src="info.order.imposterAvatar" >
+        <img :src="info.imposterAvatar" >
       </div>
-      <span class="name">{{this.info.order.imposterName}}</span>
+      <span class="name">{{this.info.imposterName}}</span>
       <span class="icon"></span>
       <span class="num">{{this.info.score}}分</span>
       <span class="Order">{{this.info.total}}单</span>
@@ -41,12 +41,23 @@
 </template>
 
 <script>
+import http from './httprequest'
 export default {
   name: 'Evaluation',
   data () {
     return {
       // 
-      info:null,
+      respon:null,
+      info:{
+        platform:'',
+        level:'',
+        server:'',
+        gameMode:'',
+        imposterAvatar:'',
+        imposterName:'',
+        score:'',
+        total:''
+      },
       context: null,
       startoggle:{
         one:false,
@@ -78,13 +89,22 @@ export default {
     
   },
   created(){
-    this.context = ((typeof window.webview)=="undefined" ? this.$route.params.imposterId : JSON.parse(window.webview.getContext()));
+    this.context = (this.$route.query.plan=="private" ? this.$route.params : JSON.parse(window.webview.getContext()));
     var that = this;
-     this.$http.get('http://api.xiugr.com:11010/'+'/wzry/imposters/' + this.context.imposterId).then(response => {
+    // alert(this.context.orderId)
+     this.$http.get(http()+'/wzry/orders/imposter/'+ this.context.orderId).then(response => {
         console.log(response)
-        that.info = response.body;
+        that.respon = response.body;
+        that.info.platform = response.body.order.platform;
+        that.info.level = response.body.order.level;
+        that.info.server = response.body.order.server;
+        that.info.gameMode = response.body.order.gameMode;
+        that.info.imposterAvatar = response.body.order.imposterAvatar;
+        that.info.imposterName = response.body.order.imposterName;
+        that.info.score = response.body.score;
+        that.info.total = response.body.total;
       }, response => {
-        alert('失败')
+        alert(response.body)
       });
   },
   methods:{
@@ -140,8 +160,9 @@ export default {
           this.ajaxmsg.tagIds.push(i)
         }
       }
-      this.$http.post('http://api.xiugr.com:11010/'+'/users/'+ this.info.order.uid +'/orders/'+this.info.order.id+'/rate',this.ajaxmsg).then(response => {
+      this.$http.post(http()+'/users/'+ this.respon.order.uid +'/orders/'+this.respon.order.id+'/rate',this.ajaxmsg).then(response => {
         console.log(response)
+        // alert(typeof window.webview.submit)
         window.webview.submit();
       }, response => {
         alert(response.body)
@@ -378,6 +399,7 @@ user-select:none;
     color: #999999;
     font-size: .15rem;
     line-height: .23rem;
+    -webkit-user-select: auto !important;
   }
   .quick{
     border-top: .1rem solid #e5e5e5;

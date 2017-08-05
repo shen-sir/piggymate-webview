@@ -39,6 +39,7 @@
 
 <script>
 import filters from './filters'
+import http from './httprequest'
 export default {
   name: 'hello',
   data () {
@@ -71,9 +72,9 @@ export default {
     getlist(){
       var that = this;
       if(!(this.isget&&this.noend)) return;
-
+      // alert(http())
       this.isget = false;
-      this.$http.get('http://test.api.xiugr.com/wzry/users/'+ window.webview.getinfo() +'/orders?page='+this.page).then(response => {
+      this.$http.get(http()+'/wzry/users/'+ window.webview.getinfo() +'/orders?page='+this.page).then(response => {
         that.isget = true;
         response.body.wzryImposterOrders.length==0?that.noend=false:that.noend=true;
         for(let i=0;i<response.body.wzryImposterOrders.length;i++){
@@ -87,7 +88,8 @@ export default {
       if(order.status == 23 && (order.rateFlag & 1) != 1){
          this.$router.push({ 
           name: 'Evaluation', 
-          params: { userId: this.userid,orderId: order.id, imposterId: order.imposterUid }
+          params: { userId: this.userid,orderId: order.id, imposterId: order.imposterUid },
+          query: { plan: 'private' }
         })
       } else if (order.status < 23) {
         window.webview.continuePayOrderWithOrderId(order.id)
@@ -143,12 +145,13 @@ export default {
         margin: 0;
       }
       .top{
-        margin-top: .12rem;
+        margin-top: .07rem;
         span{
           margin-left: .2rem;
+          vertical-align: -webkit-baseline-middle;
         }
         .name{
-          margin: -7px;
+          margin: -0.01rem;
           overflow:hidden;
           white-space:nowrap;
           display: inline-block;
@@ -157,7 +160,7 @@ export default {
         }
       }
       .tag{
-        margin-top: .05rem;
+        margin-top: .07rem;
         font-size: .14rem;
         color: #666666;
         span{
