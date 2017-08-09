@@ -70,14 +70,14 @@ export default {
       return '去支付';
       case 20:
       case 21:
-      return '进行中'
+      return '已派单'
       case 22:
       case 24:
       return '已取消'
       case 90:
       return '已超时';
       case 30:
-      return '已退款'
+      return '进行中'
       case '已完成':
       return '已完成';
       case '去评价':

@@ -42,7 +42,7 @@ export default {
           params: { response: response }
         })
       }, response => {
-        alert('服务器开了个小差')
+        alert(response.body)
         this.ishttp = true;
       });
     }

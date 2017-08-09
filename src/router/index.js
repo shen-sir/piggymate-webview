@@ -13,6 +13,8 @@ import termsOfPayment from '@/components/termsOfPayment'
 import invitation from '@/components/invitation'
 import receive from '@/components/receive'
 import AlreadyReceive from '@/components/AlreadyReceive'
+import levelUploadExample from '@/components/levelUploadExample'
+import idcardUploadExample from '@/components/idcardUploadExample'
 
 Vue.use(Router)
 
@@ -85,6 +87,16 @@ export default new Router({
       path: '/AlreadyReceive',
       name: 'AlreadyReceive',
       component: AlreadyReceive
+    },
+    {
+      path: '/levelUploadExample',
+      name: 'levelUploadExample',
+      component: levelUploadExample
+    },
+    {
+      path: '/idcardUploadExample',
+      name: 'idcardUploadExample',
+      component: idcardUploadExample
     }
   ]
 })
