@@ -12,7 +12,7 @@
           <div class="text">
             <h1><small>￥</small>{{item.amount}}</h1>
             <p class="one">{{item.content}}</p>
-            <p class="two">有效期{{item.assignedAt | re}}</p>
+            <p class="two">有效期{{item.validFrom | re}}至{{item.validTo | re}}</p>
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@ export default {
         console.log(response)
         let res = response.body;
         wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: 'wx82e50d11681eed48', // 必填，公众号的唯一标识
         timestamp: res.timestamp, // 必填，生成签名的时间戳
         nonceStr: res.noncestr, // 必填，生成签名的随机串
@@ -53,9 +53,9 @@ export default {
     
 
     wx.onMenuShareTimeline({
-        title: '猪队友', // 分享标题
-        link: '猪队友', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl: '', // 分享图标
+        title: '我送你王者荣耀免费上星券，快点来领吧！', // 分享标题
+        link: 'http://api.xiugr.com/dist/index.html#/receive?uid='+this.$route.params.response.body.uid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: 'http://api.xiugr.com/dist/static/1.png', // 分享图标
         success: function () { 
             // 用户确认分享后执行的回调函数
         },
@@ -65,10 +65,10 @@ export default {
     });
 
     wx.onMenuShareAppMessage({
-        title: '猪队友', // 分享标题
-        desc: '猪队友', // 分享描述
-        link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl: '', // 分享图标
+        title: '我送你王者荣耀免费上星券，快点来领吧！', // 分享标题
+        desc: '我送你王者荣耀免费上星券，快点来领吧！', // 分享描述
+        link: 'http://api.xiugr.com/dist/index.html#/receive?uid='+this.$route.params.response.body.uid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: 'http://api.xiugr.com/dist/static/1.png', // 分享图标
         type: '', // 分享类型,music、video或link，不填默认为link
         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
         success: function () { 
@@ -80,10 +80,10 @@ export default {
     });
             
     wx.onMenuShareQQ({
-        title: '猪队友', // 分享标题
-        desc: '猪队友', // 分享描述
-        link: '', // 分享链接
-        imgUrl: '', // 分享图标
+        title: '我送你王者荣耀免费上星券，快点来领吧！', // 分享标题
+        desc: '我送你王者荣耀免费上星券，快点来领吧！', // 分享描述
+        link: 'http://api.xiugr.com/dist/index.html#/receive?uid='+this.$route.params.response.body.uid, // 分享链接
+        imgUrl: 'http://api.xiugr.com/dist/static/1.png', // 分享图标
         success: function () { 
            // 用户确认分享后执行的回调函数
         },
@@ -95,7 +95,7 @@ export default {
   },
   filters:{
     re(value){
-      return value.replace(' ', '至');
+      return value.split(' ')[0];
     }
   },
   methods:{
