@@ -27,19 +27,19 @@
     </div>
     <div class="state">
       <img v-if="info.status==0&&!cancelOrder" src="../assets/dingdanxiangqing-yi@2x.png">
-      <img v-if="cancelOrder" src="../assets/dingdanxiangqing-jia@2x.png">
+      <img v-if="cancelOrder||info.status==24" src="../assets/dingdanxiangqing-jia@2x.png">
       <img v-if="info.status==10" src="../assets/dingdanxiangqing-er@2x.png">
       <img v-if="info.status==21" src="../assets/dingdanxiangqing-san@2x.png">
       <img v-if="info.status==22" src="../assets/dingdanxiangqing-si@2x.png">
       <img v-if="info.status==23" src="../assets/dingdanxiangqing-wu@2x.png">
-      <div v-if="!cancelOrder" class="right">
+      <div v-if="!cancelOrder&&info.status!=24" class="right">
         <p>订单创建</p>
         <p class="bott">待支付</p>
         <p class="bott">进行中</p>
         <p class="bott">待评价</p>
         <p class="bott">已完成</p>
       </div>
-      <div v-if="cancelOrder" class="right">
+      <div v-if="cancelOrder||info.status==24" class="right">
         <p>订单创建</p>
         <p>订单已取消</p>
       </div>
@@ -47,7 +47,7 @@
     <div v-if="(info.status==0||info.status==21)&&!cancelOrder" @click="sub" class="btn">
       取消订单
     </div>
-    <div v-if="cancelOrder" @click="sub" class="btn">
+    <div v-if="cancelOrder||info.status==24" @click="sub" class="btn">
       返回首页
     </div>
     <div v-if="info.status==10" @click="sub" class="btn">
@@ -85,6 +85,8 @@ export default {
     var that = this;
      this.$http.get(http()+'/wzry/orders/user/'+this.$route.params.orderId).then(response => {
         that.info = response.body;
+        // that.info.status = 24;
+        // that.cancelOrder = true;
         console.log(that.info)
         console.log(that.$route.params)
       }, response => {
