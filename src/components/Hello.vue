@@ -72,7 +72,6 @@ export default {
     getlist(){
       var that = this;
       if(!(this.isget&&this.noend)) return;
-      // alert(http())
       this.isget = false;
       this.$http.get(http()+'/wzry/users/'+ window.webview.getinfo() +'/orders?page='+this.page).then(response => {
         that.isget = true;

@@ -65,7 +65,6 @@ export default {
           that.getlist();
         }
       }
-      alert(http())
   },
   methods:{
     getlist(){

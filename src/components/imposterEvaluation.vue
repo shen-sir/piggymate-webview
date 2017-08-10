@@ -102,7 +102,7 @@ export default {
         that.info.score = response.body.score;
         that.info.total = response.body.total;
       }, response => {
-        alert('失败')
+        alert(response.body)
       });
   },
   methods:{
