@@ -50,8 +50,8 @@ export default {
       info:{
         platform:'',
         level:'',
-        server:'',
-        gameMode:'',
+        server:'qq',
+        gameMode:'rank',
         userAvatar:'',
         userName:'',
         score:'',
@@ -239,9 +239,8 @@ export default {
           return '安卓'
           break
         }
-      }
-    },
-    mode(val){
+      },
+      mode(val){
       switch(val){
         case 'pair':
         return '匹配'
@@ -254,6 +253,7 @@ export default {
         break
       }
     }
+  }
 }
 </script>
 

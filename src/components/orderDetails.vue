@@ -95,6 +95,10 @@ export default {
   },
   methods:{
     sub(){
+      if(this.cancelOrder){
+        window.webview.backRoomList() 
+        return;
+      }
       switch(this.info.status){
         // 取消订单
         case 0:
@@ -124,6 +128,9 @@ export default {
         // 已完成
         case 23:
         window.webview.backNativeAction()
+        break;
+        case 24:
+        window.webview.backRoomList() 
         break;
       }
     }
