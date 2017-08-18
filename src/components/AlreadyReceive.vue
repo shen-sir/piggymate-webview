@@ -1,18 +1,25 @@
 <template>
   <div class="hello">
-  
+
     <div class="background">
       <div class="contain">
         <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.kingdowin.ptm"><img class="left" src="../assets/yaoqingshangxing-shangfen@2x.png"></a>
-        <img @click="tip=true" class="right" src="../assets/yaoqingshangxing-chuandi@2x.png">
-        <div style="clear:both;"></div>
+        <!-- <img @click="tip=true" class="right" src="../assets/yaoqingshangxing-chuandi@2x.png">
+        <div style="clear:both;"></div> -->
       </div>
       <div class="list">
-        <div v-for="item in list" class="ticket">
+        <!-- <div v-for="item in list" class="ticket">
           <div class="text">
             <h1><small>￥</small>{{item.amount}}</h1>
             <p class="one">{{item.content}}</p>
             <p class="two">有效期{{item.validFrom | re}}至{{item.validTo | re}}</p>
+          </div>
+        </div> -->
+        <div class="ticket">
+          <div class="text">
+            <h1><small>￥</small>10</h1>
+            <p class="one">适用于所有段位</p>
+            <!-- <p class="two">有效期{{item.validFrom | re}}至{{item.validTo | re}}</p> -->
           </div>
         </div>
       </div>
@@ -115,10 +122,11 @@ export default {
     width: 2.35rem;
     /*height: 2.65rem;*/
     margin: 3.38rem auto 0 auto;
+    text-align: center;
     /*border:1px solid red;*/
     .left{
       width: 1.05rem;
-      float: left;
+      // float: left;
     }
     .right{
       width: 1.05rem;

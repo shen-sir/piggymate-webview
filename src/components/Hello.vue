@@ -19,7 +19,7 @@
              --><span>{{item.createdAt.substr(11, 5)}}</span><!-- 
              --><span>{{item.amount}}局</span>
           </p>
-          <p class="tag"><span>{{item.platform | platform}}端</span><span>{{item.level | level}}</span><span>{{item.server | server}}</span><span>{{item.gameMode | gameMode}}</span></p>
+          <p class="tag"><span>{{item.platform | platform}}端</span><span>{{item.level}}</span><span>{{item.server | server}}</span><span>{{item.gameMode | gameMode}}</span></p>
         </div>
       </div>
       <div class="state">
@@ -84,13 +84,14 @@ export default {
       });
     },
     link(order){
+      // alert(order.status)
       if(order.status == 23 && (order.rateFlag & 1) != 1){
          this.$router.push({ 
           name: 'Evaluation', 
           params: { userId: this.userid,orderId: order.id, imposterId: order.imposterUid },
           query: { plan: 'private' }
         })
-      } else if (order.status < 23) {
+      } else if (order.status == 0 || order.status == 10) {
         window.webview.continuePayOrderWithOrderId(order.id)
       } else {
         return false; 

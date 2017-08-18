@@ -37,14 +37,13 @@ export default {
       this.ishttp = false;
       this.$http.post(http()+'/acts/newreg/'+this.prevuid+'/demand',{phone:this.phone}).then(response => {
         console.log(response)
-        this.$router.push({ 
-          name: 'AlreadyReceive', 
-          params: { response: response }
-        })
       }, response => {
-        alert(response.body)
+        // alert(response.body)
         this.ishttp = true;
       });
+      this.$router.push({ 
+          name: 'AlreadyReceive'
+      })
     }
   }
 }

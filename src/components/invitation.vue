@@ -2,6 +2,7 @@
   <div class="hello">
     <div class="background">
       <div class="contain">
+        <img class="img" src="../assets/yaoqingma-tishiwenzi@2x.png" alt="">
         <div class="text">
           <span class="left"></span>
           <input v-model="message" type="text">
@@ -59,12 +60,18 @@ export default {
     /*border:1px solid red;*/
     background: url(../assets/h5-yaoqing-erweima@2x.png) center top / cover no-repeat;
     position: relative;
+    .img{
+      width: 2rem;
+      position: absolute;
+      bottom: .32rem;
+      margin-left: .3rem;
+    }
     .text{
       /*border: 1px solid blue;*/
       position: absolute;
       bottom: 0;
       margin-left: .27rem;
-      margin-bottom: .1rem;
+      margin-bottom: .03rem;
       .left{
         display: inline-block;
         width: .8rem;

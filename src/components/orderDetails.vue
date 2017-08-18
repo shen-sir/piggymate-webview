@@ -123,7 +123,7 @@ export default {
         break;
         // 待评价
         case 22:
-        this.$router.push({ name: 'Evaluation', params: { userId: this.info.uid ,orderId:this.info.order.id}})
+        this.$router.push({ name: 'Evaluation', params: { userId: this.info.uid ,orderId:this.info.order.id},query: { plan: 'private' }})
         break;
         // 已完成
         case 23:
