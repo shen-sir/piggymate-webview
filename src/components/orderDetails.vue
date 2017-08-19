@@ -83,12 +83,12 @@ export default {
   },
   created(){
     var that = this;
-     this.$http.get(http()+'/wzry/orders/user/'+this.$route.params.orderId).then(response => {
+     this.$http.get(http()+'/wzry/orders/user/'+this.$route.query.orderId).then(response => {
         that.info = response.body;
         // that.info.status = 24;
         // that.cancelOrder = true;
         console.log(that.info)
-        console.log(that.$route.params)
+        console.log(that.$route.query)
       }, response => {
         alert('失败')
       });

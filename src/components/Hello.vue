@@ -104,7 +104,7 @@ export default {
     showDetail(id){
       this.$router.push({
         name: 'orderDetails',
-        params: {orderId: id}
+        query: {orderId: id}
       });
     }
   },
