@@ -3,7 +3,7 @@
     <div class="top">
       <p>订单详情</p>
       <span class="one">{{this.info.platform | server}}</span>
-      <span class="two">{{this.info.level | state}}</span>
+      <span class="two">{{this.info.level}}</span>
       <span class="three">{{this.info.server | server}}</span>
       <span class="four">{{this.info.gameMode | mode}}</span>
     </div>
@@ -166,61 +166,6 @@ export default {
     }
   },
   filters:{
-    state(val){
-      switch(val){
-        case 1:
-        return '青铜'
-        break;
-        case 2:
-        return '白银'
-        break;
-        case 3:
-        return '黄金'
-        break;
-        case 4:
-        return '铂金'
-        break;
-        case 50:
-        return '钻石5'
-        break;
-        case 51:
-        return '钻石4'
-        break;
-        case 52:
-        return '钻石3'
-        break;
-        case 53:
-        return '钻石2'
-        break;
-        case 5:
-        return '钻石1'
-        break;
-        case 60:
-        return '星耀5'
-        break;
-        case 61:
-        return '星耀4'
-        break;
-        case 62:
-        return '星耀3'
-        break;
-        case 63:
-        return '星耀2'
-        break;
-        case 6:
-        return '星耀1'
-        break;
-        case 70:
-        return '王者1～10'
-        break;
-        case 71:
-        return '王者11～20'
-        break;
-        case 7:
-        return '王者21+'
-        break;
-      }
-    },
       server(val){
         switch(val){
           case 'wechat':

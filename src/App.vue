@@ -37,6 +37,9 @@ input:focus{
     -webkit-tap-highlight-color:rgba(0,0,0,0);
     -webkit-user-modify:read-write-plaintext-only;
 }
+textarea{
+  -webkit-user-select: auto !important;
+}
 *:focus {outline: none;}
 
 * {

@@ -19,7 +19,7 @@
              --><span>{{item.createdAt.substr(11, 5)}}</span><!-- 
              --><span>{{item.amount}}局</span>
           </p>
-          <p class="tag"><span>{{item.platform}}端</span><span>{{item.level | level}}</span><span>{{item.server | server}}</span><span>{{item.gameMode | gameMode}}</span></p>
+          <p class="tag"><span>{{item.platform}}端</span><span>{{item.level}}</span><span>{{item.server | server}}</span><span>{{item.gameMode | gameMode}}</span></p>
         </div>
       </div>
       <div class="state">
