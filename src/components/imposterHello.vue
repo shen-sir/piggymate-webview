@@ -85,11 +85,12 @@ export default {
     /** Edited by Justice BEGIN */
     link(v1,v2,orderId){
       if(v1&&v2){ 
-        this.$router.push({ 
+        /*this.$router.push({ 
           name: 'imposterEvaluation', 
           params: { userId: this.userid,orderId: orderId.id, imposterId: orderId.imposterUid },
           query: { plan: 'private' }
-        });
+        });*/
+        window.webview.goImposterEvaluation(orderId.id.toString())
       } else {
         return false;
       }
