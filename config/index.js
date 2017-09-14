@@ -43,6 +43,10 @@ module.exports = {
         '/wechat': {
             target: 'http://test.api.xiugr.com',
             changeOrigin: true
+        },
+        '/redBag': {
+            target: 'http://test.api.xiugr.com',
+            changeOrigin: true
         }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

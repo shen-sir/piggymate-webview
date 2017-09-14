@@ -59,6 +59,15 @@
     <div v-if="info.status==23" @click="sub" class="btn">
       已完成
     </div>
+    <div v-if="info.status==23" @click="confirm = true" class="redbag">
+      <img src="../assets/hongbaotubiao@2x.png">
+    </div>
+    <div v-show="confirm" class="confirm">
+      <div class="text">
+        <img src="../assets/fahongbao-beijing@2x.png">
+        <div @click="confirm = false" class="left"></div><div @click="send" class="right"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,7 +81,9 @@ export default {
       info:null,
       // 
       // 取消订单成功
-      cancelOrder:false
+      cancelOrder:false,
+      // 发红包消息框
+      confirm:false
     }
   },
   computed:{
@@ -133,6 +144,11 @@ export default {
         window.webview.backRoomList() 
         break;
       }
+    },
+    // 发红包
+    send(){
+      this.confirm = false;
+      window.webview.RedPackage()
     }
   },
   filters:{
@@ -304,7 +320,7 @@ user-select:none;
     }
   }
   .state{
-    height: 3rem;
+    height: 2.8rem;
     border-top: .1rem solid #f5f5f5;
     padding-left: .15rem;
     padding-top: .13rem;
@@ -334,6 +350,54 @@ user-select:none;
     line-height: .5rem;
     position: fixed;
     bottom: 0;
+  }
+  .redbag{
+    position: absolute;
+    right: 0px;
+    top: 55%;
+    width: .4rem;
+    img{
+      width: 100%;
+    }
+  }
+  .confirm{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(51, 51, 51, 0.56);
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    .text{
+      width: 3rem;
+      position: absolute;
+      top:50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      img{
+        width: 100%;
+      }
+      .left{
+        // border:1px solid red;
+        position: absolute;
+        bottom: 0rem;
+        height: .7rem;
+        // background-color: red;
+        display: inline-block;
+        width: 50%;
+      }
+      .right{
+        // border:1px solid red;
+        position: absolute;
+        bottom: 0rem;
+        right: 0;
+        height: .7rem;
+        // background-color: blue;
+        width: 50%;
+        display: inline-block;
+      }
+    }
   }
 }
 

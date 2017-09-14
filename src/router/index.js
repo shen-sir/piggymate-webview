@@ -15,6 +15,7 @@ import receive from '@/components/receive'
 import AlreadyReceive from '@/components/AlreadyReceive'
 import levelUploadExample from '@/components/levelUploadExample'
 import idcardUploadExample from '@/components/idcardUploadExample'
+import share from '@/components/share'
 
 Vue.use(Router)
 
@@ -97,6 +98,12 @@ export default new Router({
       path: '/idcardUploadExample',
       name: 'idcardUploadExample',
       component: idcardUploadExample
+    },
+    //订单详情页分享红包
+    {
+      path: '/share',
+      name: 'share',
+      component: share
     }
   ]
 })
