@@ -91,7 +91,8 @@ export default {
           params: { userId: this.userid,orderId: order.id, imposterId: order.imposterUid },
           query: { plan: 'private' }
         })*/
-        window.webview.goEvaluation(orderId.id.toString())
+        let orderId = order.id.toString()
+        window.webview.goEvaluation(orderId)
       } else if (order.status == 0 || order.status == 10) {
         window.webview.continuePayOrderWithOrderId(order.id)
       } else {
@@ -171,7 +172,7 @@ export default {
     }
   }
   .state{
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 20px solid #f5f5f5;
     font-size: .14rem;
     height: .5rem;
     p{

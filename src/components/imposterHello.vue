@@ -83,14 +83,15 @@ export default {
       });
     },
     /** Edited by Justice BEGIN */
-    link(v1,v2,orderId){
+    link(v1,v2,order){
       if(v1&&v2){ 
         /*this.$router.push({ 
           name: 'imposterEvaluation', 
-          params: { userId: this.userid,orderId: orderId.id, imposterId: orderId.imposterUid },
+          params: { userId: this.userid,orderId: order.id, imposterId: order.imposterUid },
           query: { plan: 'private' }
         });*/
-        window.webview.goImposterEvaluation(orderId.id.toString())
+        let orderId = order.id.toString()
+        window.webview.goImposterEvaluation(orderId)
       } else {
         return false;
       }
@@ -158,7 +159,7 @@ export default {
     }
   }
   .state{
-    border-bottom: .01rem solid #e5e5e5;
+    border-bottom: 20px solid #f5f5f5;
     font-size: .14rem;
     height: .5rem;
     p{
