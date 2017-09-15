@@ -62,7 +62,7 @@
     <div v-if="info.status==23" @click="confirm = true" class="redbag">
       <img src="../assets/hongbaotubiao@2x.png">
     </div>
-    <div v-show="confirm" class="confirm">
+    <div v-show="confirm" @touchmove.self.prevent="move" class="confirm">
       <div class="text">
         <img src="../assets/fahongbao-beijing@2x.png">
         <div @click="confirm = false" class="left"></div><div @click="send" class="right"></div>
@@ -148,7 +148,11 @@ export default {
     // 发红包
     send(){
       this.confirm = false;
-      window.webview.RedPackage()
+      var orderId = this.$route.query.orderId;
+      window.webview.RedPackage(orderId)
+    },
+    move(){
+
     }
   },
   filters:{
@@ -324,6 +328,7 @@ user-select:none;
     border-top: .1rem solid #f5f5f5;
     padding-left: .15rem;
     padding-top: .13rem;
+    padding-bottom: .4rem;
     img{
       width: .26rem;
       display: inline-block;
@@ -364,7 +369,7 @@ user-select:none;
     width: 100%;
     height: 100%;
     background-color: rgba(51, 51, 51, 0.56);
-    position: absolute;
+    position: fixed;
     top:0;
     left: 0;
     right: 0;

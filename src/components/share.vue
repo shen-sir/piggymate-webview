@@ -2,20 +2,20 @@
   <div class="contain">
     <img class="background" src="../assets/beijing@2x.png" >
     <img class="get" src="../assets/daijinquan-biaoti@2x.png" >
-    <div class="ticket">
+    <div v-if="coupon!='undefined'" class="ticket">
           <div class="text">
             <h1><small>￥</small>{{coupon.amount}}</h1>
             <p class="one">适用于所有段位</p>
-            <p class="two">有效期{{coupon.validFrom.split(' ')[0]}}至{{coupon.validTo.split(' ')[0]}}</p>
+            <p class="two">有效期{{coupon.validFrom}}至{{coupon.validTo}}</p>
           </div>
     </div>
-    <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.kingdowin.ptm"><img class="btn" src="../assets/lijishiyong-@2x.png" ></a>
-    <img class="noticket" src="../assets/quan-biankuang@2x.png">
+    <a v-if="coupon!='undefined'" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.kingdowin.ptm"><img class="btn" src="../assets/lijishiyong-@2x.png" ></a>
+    <img v-else class="noticket" src="../assets/quan-biankuang@2x.png">
     <img class="others" src="../assets/shouqibiaoti@2x.png" >
     <div v-for="item in list" class="context">
       <div class="left">
         <div class="headimg">
-          <img :src="item.photoUrl">
+        <img :src="item.photoUrl">
         </div>
         <span>{{item.nickName}}</span>
       </div>
@@ -26,60 +26,9 @@
       <div class="right">
         <span class="top">已领:</span>
         <p class="mon">{{item.amount}}<span>元</span></p>
-        <span class="time">{{item.validTo.split(' ')[0]}}</span>
+        <span class="time">{{item.validTo}}</span>
       </div>
     </div>
-    <!-- <div class="context">
-      <div class="left">
-        <div class="headimg">
-          <img src="../assets/h.jpg">
-        </div>
-        <span>123214234asd</span>
-      </div>
-      
-      <div class="text">
-        <p>萨科技和啥的看法水电费撒地方离开就好撒地方</p>
-      </div>
-      <div class="right">
-        <span class="top">已领:</span>
-        <p class="mon">2 <span>元</span></p>
-        <span class="time">09/09/09</span>
-      </div>
-    </div>
-    <div class="context">
-      <div class="left">
-        <div class="headimg">
-          <img src="../assets/h.jpg">
-        </div>
-        <span>123214234asd</span>
-      </div>
-      
-      <div class="text">
-        <p>萨科技和啥的看法水电费撒地方离开就好撒地方</p>
-      </div>
-      <div class="right">
-        <span class="top">已领:</span>
-        <p class="mon">2 <span>元</span></p>
-        <span class="time">09/09/09</span>
-      </div>
-    </div>
-    <div class="context">
-      <div class="left">
-        <div class="headimg">
-          <img src="../assets/h.jpg">
-        </div>
-        <span>123214234asd</span>
-      </div>
-      
-      <div class="text">
-        <p>萨科技和啥的看法水电费撒地方离开就好撒地方</p>
-      </div>
-      <div class="right">
-        <span class="top">已领:</span>
-        <p class="mon">2 <span>元</span></p>
-        <span class="time">09/09/09</span>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -96,8 +45,8 @@ export default {
       },
       list:[],
       ajaxmsg:{
-        batchesId:this.$route.query.state,
-        code:this.$route.query.code
+        batchesId:window.location.href.split('=')[2].split('#')[0],
+        code:window.location.href.split('=')[1].split('&')[0]
       }
     }
   },
@@ -105,9 +54,9 @@ export default {
 
   },
   created(){
-    alert(this.$route.query.code)
+    console.log(this.ajaxmsg)
     var that = this;
-     this.$http.post(http()+'/redBag/get',this.ajaxmsg).then(response => {
+     this.$http.post(http()+'/acts/redBag/get',this.ajaxmsg).then(response => {
         console.log(response)
         that.coupon = response.body.coupon;
         that.list = response.body.list;
@@ -125,21 +74,24 @@ export default {
 <style lang='less' scoped>
 .contain{
   background-color: #fdbf01;
-  position: relative;
-  z-index: -2;
+  padding-bottom: .2rem;
   .background{
     width: 100%;
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     top: 0;
   }
   .get{
     width: 1.4rem;
     margin-left: 1.2rem;
     margin-top: 2.5rem;
+    position: relative;
+    z-index: 2;
   }
   .ticket{
       /*border:1px solid red;*/
+      position: relative;
+    z-index: 2;
       margin-top: .2rem;
       height: 1.32rem;
       background: url(../assets/daijinquan@3x.png) center top / auto 1.31rem no-repeat;
@@ -175,18 +127,26 @@ export default {
     width: 1.22rem;
     margin-left: 1.3rem;
     margin-top: .15rem;
+    position: relative;
+    z-index: 2;
   }
   .noticket{
     height: 1.31rem;
     margin-left: .13rem;
+    position: relative;
+    z-index: 2;
   }
   .others{
     width: 1.40rem;
     margin-left: 1.3rem;
     margin-top: .15rem;
+    position: relative;
+    z-index: 2;
   }
   .context{
     // border: 1px solid black;
+    position: relative;
+    z-index: 2;
     text-align: center;
     .left{
       display: inline-block;
@@ -214,6 +174,9 @@ export default {
         overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
+        width: .6rem;
+        padding-top: .05rem;
+        font-size: .12rem;
       }
     }
     .text{
@@ -225,6 +188,7 @@ export default {
       background-size:contain;
       overflow: hidden;
       text-align: center;
+      vertical-align: top;
       p{
         width: 80%;
         display: inline-block;
