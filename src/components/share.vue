@@ -2,14 +2,14 @@
   <div class="contain">
     <img class="background" src="../assets/beijing@2x.png" >
     <img class="get" src="../assets/daijinquan-biaoti@2x.png" >
-    <div v-if="coupon!='undefined'" class="ticket">
+    <div v-if="hasTicket" class="ticket">
           <div class="text">
             <h1><small>￥</small>{{coupon.amount}}</h1>
             <p class="one">适用于所有段位</p>
             <p class="two">有效期{{coupon.validFrom}}至{{coupon.validTo}}</p>
           </div>
     </div>
-    <a v-if="coupon!='undefined'" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.kingdowin.ptm"><img class="btn" src="../assets/lijishiyong-@2x.png" ></a>
+    <a v-if="hasTicket" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.kingdowin.ptm"><img class="btn" src="../assets/lijishiyong-@2x.png" ></a>
     <img v-else class="noticket" src="../assets/quan-biankuang@2x.png">
     <img class="others" src="../assets/shouqibiaoti@2x.png" >
     <div v-for="item in list" class="context">
@@ -43,6 +43,7 @@ export default {
         validFrom:'',
         validTo:''
       },
+      hasTicket:true,
       list:[],
       ajaxmsg:{
         batchesId:window.location.href.split('=')[2].split('#')[0],
@@ -58,6 +59,9 @@ export default {
     var that = this;
      this.$http.post(http()+'/acts/redBag/get',this.ajaxmsg).then(response => {
         console.log(response)
+        if(typeof response.body.coupon=='undefined'){
+          that.hasTicket = false;
+        }
         that.coupon = response.body.coupon;
         that.list = response.body.list;
       }, response => {
