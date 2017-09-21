@@ -16,6 +16,7 @@ import AlreadyReceive from '@/components/AlreadyReceive'
 import levelUploadExample from '@/components/levelUploadExample'
 import idcardUploadExample from '@/components/idcardUploadExample'
 import share from '@/components/share'
+import luckDraw from '@/components/luckDraw'
 
 Vue.use(Router)
 
@@ -104,6 +105,11 @@ export default new Router({
       path: '/share',
       name: 'share',
       component: share
+    },
+    {
+      path: '/luckDraw',
+      name: 'luckDraw',
+      component: luckDraw
     }
   ]
 })
