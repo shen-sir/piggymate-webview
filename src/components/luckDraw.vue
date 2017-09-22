@@ -11,7 +11,7 @@
     <img class="bottom" src="../assets/huodongguize@2x.png" >
     <div v-show="winning" class="winning">
       <img class="info" src="../assets/zhongjiangkapian@2x.png" >
-      <p>78787王者荣耀点券</p>
+      <p>{{winningText}}</p>
       <img @click="btn" class="btn" src="../assets/queding@2x.png">
     </div>
     
@@ -24,15 +24,16 @@ export default {
   name: 'luckDraw',
   data () {
     return {
-      // angle:0,
+      // sytle
       styleObject:{},
+      // 装饰是否闪烁
       isRotate:false,
-      isDraw:true,
+      // 是否还能抽奖
+      isDraw:false,
+      // 中奖提示框
       winning:false,
-      ajaxmsg:{
-        // batchesId:window.location.href.split('=')[2].split('#')[0],
-        // code:window.location.href.split('=')[1].split('&')[0]
-      }
+      // 中奖文字
+      winningText:'-'
     }
   },
   computed:{
@@ -41,16 +42,8 @@ export default {
   created(){
     console.log(this.ajaxmsg)
     var that = this;
-     /*this.$http.post(http()+'/acts/redBag/get',this.ajaxmsg).then(response => {
-        console.log(response)
-        if(typeof response.body.coupon=='undefined'){
-          that.hasTicket = false;
-        }
-        that.coupon = response.body.coupon;
-        that.list = response.body.list;
-      }, response => {
-        alert(response.body)
-      });*/
+    this._http()
+     
   },
   methods:{
     luck(){
@@ -77,6 +70,21 @@ export default {
       this.isDraw = true;
       this.winning = false;
       this.styleObject.transform = 'rotate(0deg)';
+    },
+    _http(){
+      let that = this;
+      this.$http.post(http()+'acts/turn/action').then(response => {
+        let angle = Number(response.body.poolId)*60
+        that.styleObject.transform = 'rotate('+(360*20+angle)+'deg)'
+        that.isDraw = true;
+        that.winningText = response.body.title;
+      }, response => {
+        console.log(response)
+        if(response.status == 400){
+          that.isDraw = false;
+        }
+        alert(response.body)
+      });
     }
   }
 }
