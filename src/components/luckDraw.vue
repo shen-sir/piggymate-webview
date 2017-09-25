@@ -29,7 +29,7 @@ export default {
       // 装饰是否闪烁
       isRotate:false,
       // 是否还能抽奖
-      isDraw:false,
+      isDraw:true,
       // 中奖提示框
       winning:false,
       // 中奖文字
@@ -40,51 +40,49 @@ export default {
 
   },
   created(){
-    console.log(this.ajaxmsg)
-    var that = this;
-    this._http()
      
   },
   methods:{
     luck(){
+      var that = this;
       if(!this.isDraw){
         return
       }
       this.isDraw = false;
-      this.styleObject = {
-        transform:'rotate('+(360*20+240)+'deg)',
-        transitionProperty:'transform',
-        transitionDuration:'8s'
-      }
-      var that = this;
-      var intervalId = setInterval(function(){
-        that.isRotate = !that.isRotate
-      },100)
-      setTimeout(function(){
-        clearInterval(intervalId)
-        that.styleObject = {}
-        that.winning = true;
-      },8000)
+      this.$http.post(http()+'/acts/turn/action').then(response => {
+        console.log(response)
+        var angle = Number(response.body.poolId)*60
+        that.winningText = response.body.title;
+        console.log(angle)
+        that.styleObject = {
+          transform:'rotate('+(360*20+angle)+'deg)',
+          transitionProperty:'transform',
+          transitionDuration:'8s'
+        }
+        /*周围闪烁*/
+        var intervalId = setInterval(function(){
+          that.isRotate = !that.isRotate
+        },100)
+        setTimeout(function(){
+          clearInterval(intervalId)
+          that.winning = true;
+        },8000)
+        /*周围闪烁*/
+
+        
+      }, response => {
+        console.log(response)
+        alert(response.body)
+      });
+
+     
     },
     btn(){
       this.isDraw = true;
       this.winning = false;
-      this.styleObject.transform = 'rotate(0deg)';
-    },
-    _http(){
-      let that = this;
-      this.$http.post(http()+'acts/turn/action').then(response => {
-        let angle = Number(response.body.poolId)*60
-        that.styleObject.transform = 'rotate('+(360*20+angle)+'deg)'
-        that.isDraw = true;
-        that.winningText = response.body.title;
-      }, response => {
-        console.log(response)
-        if(response.status == 400){
-          that.isDraw = false;
-        }
-        alert(response.body)
-      });
+      this.styleObject = {
+        transform : 'rotate(0deg)'
+      }
     }
   }
 }
@@ -103,7 +101,6 @@ export default {
     margin-top: 2.51rem;
   }
   .turntable{
-    // border: 1px solid red;
     width: 3.12rem;
     height: 3.12rem;
     margin: 0 auto;
@@ -111,9 +108,6 @@ export default {
     margin-top: .13rem;
     .table{
       position: absolute;
-      // top:50%;
-      // left: 50%;
-      // transform:translate(-50%,-50%);
       width: 100%;
       transform:rotate(0deg);
     }
@@ -128,13 +122,6 @@ export default {
     .cercleRotate{
       transform:rotate(45deg);
     }
-    /*.cercle2{
-      position: absolute;
-      top:.01rem;
-      width: 100%;
-      transform:rotate(45deg);
-      // transform:translate(-50%,-50%);
-    }*/
     .center{
       position: absolute;
       top:50%;

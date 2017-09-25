@@ -1,7 +1,7 @@
 //0代理
-const _test = 0;
+// const _test = 0;
 //1 测试服
-// const _test = 1;
+const _test = 1;
 //2 正式服 
 // const _test = 2;
 
